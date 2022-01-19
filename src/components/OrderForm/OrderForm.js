@@ -9,14 +9,21 @@ import React, { Component, useState } from 'react';
   //     ingredients: []
   //   };
   // }
-const OrderForm = () => {
+const OrderForm = ({ addOrder }) => {
 
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState([]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    this.clearInputs();
+    const newOrder = {
+      name: name,
+      ingredients: ingredients
+    }
+    if(newOrder.name !== '' && newOrder.ingredients.length) {
+      addOrder(newOrder)
+      clearInputs();
+    }
   }
 
   const handleIngredientChange = e => {
@@ -28,7 +35,8 @@ const OrderForm = () => {
   }
 
   const clearInputs = () => {
-    this.setState({name: '', ingredients: []});
+   setName('');
+   setIngredients([]);
   }
 
   // render() {
@@ -55,7 +63,7 @@ const OrderForm = () => {
 
         <p>Order: { ingredients.join(', ') || 'Nothing selected' }</p>
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button onClick={e => handleSubmit(e)}>
           Submit Order
         </button>
       </form>
